@@ -20,7 +20,11 @@ router.put('/workouts/:id', (req, res) => {
   const payload = req.body;
   const update = async () => {
     try {
-      const data = await Workout.findOneAndUpdate({ _id }, payload);
+      const myWorkout = await Workout.findOne({ _id });
+      const { exercises } = myWorkout;
+      exercises.push(payload);
+      console.log('exercises\n', exercises);
+      const data = await Workout.findOneAndUpdate({ _id }, { exercises });
       res.json(data);
     } catch (err) {
       res.status(400).json(err);
