@@ -26,7 +26,7 @@ mongoose.connect(
     useFindAndModify: false,
   }
   // ||
-  // 'mongodb://localhost/fitness-tracker',
+  // 'mongodb://localhost/fitness',
   // {
   //   useNewUrlParser: true,
   //   useUnifiedTopology: true,

@@ -1,11 +1,25 @@
 const mongoose = require('mongoose');
 const Workout = require('../models/Workout');
+require('dotenv').config();
+const promisify = require('../utils/promisify');
 
-mongoose.connect('mongodb://localhost/workout', {
-  useNewUrlParser: true,
-  useFindAndModify: false,
-  useUnifiedTopology: true,
-});
+mongoose.connect(
+  process.env.MONGODB_URI,
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+    useFindAndModify: false,
+  }
+  // ||
+  // 'mongodb://localhost/fitness',
+  // {
+  //   useNewUrlParser: true,
+  //   useUnifiedTopology: true,
+  //   useCreateIndex: true,
+  //   useFindAndModify: false,
+  // }
+);
 
 const workoutSeed = [
   {
@@ -125,13 +139,16 @@ const workoutSeed = [
   },
 ];
 
-Workout.deleteMany({})
-  .then(() => Workout.insertMany(workoutSeed))
-  .then((data) => {
-    console.log(' records inserted!');
+const seed = async () => {
+  try {
+    await Workout.deleteMany({});
+    const data = await Workout.insertMany(workoutSeed);
+    console.log('Seed Data\n', data.insertedIds + '\n', 'Database Seeded');
     process.exit(0);
-  })
-  .catch((err) => {
+  } catch (err) {
     console.error(err);
     process.exit(1);
-  });
+  }
+};
+
+seed();
