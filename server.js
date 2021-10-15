@@ -3,6 +3,7 @@ const logger = require('morgan');
 const mongoose = require('mongoose');
 const compression = require('compression');
 require('dotenv').config();
+const routes = require('./routes');
 
 const PORT = process.env.PORT || 3000;
 
@@ -25,17 +26,17 @@ mongoose.connect(
     useFindAndModify: false,
   }
   // ||
-  // ('mongodb://localhost/fitnes-tracker',
+  // 'mongodb://localhost/fitness-tracker',
   // {
   //   useNewUrlParser: true,
   //   useUnifiedTopology: true,
   //   useCreateIndex: true,
   //   useFindAndModify: false,
-  // })
+  // }
 );
 
 // routes
-app.use(require('./routes/api.js'));
+app.use(routes);
 
 app.listen(PORT, () => {
   console.log(`App running on port ${PORT}!`);
